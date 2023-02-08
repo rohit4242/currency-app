@@ -11,13 +11,17 @@ const index = () => {
   const [UID, setUID] = useState("");
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((p) => {
-      console.log(p.coords.longitude);
-      console.log(p.coords.latitude);
-      setLongitude(p.coords.longitude);
-      setLatitude(p.coords.latitude);
-      setUID(localStorage.getItem("userUID"));
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((p) => {
+        console.log(p.coords.longitude);
+        console.log(p.coords.latitude);
+        setLongitude(p.coords.longitude);
+        setLatitude(p.coords.latitude);
+        setUID(localStorage.getItem("userUID"));
+      });
+    } else {
+      setError("Your Longitude and Latitude was not found");
+    }
   }, []);
 
   function setData(NoteNumber, price, longitude, latitude, uid) {
