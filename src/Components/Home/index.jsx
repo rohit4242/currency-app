@@ -26,7 +26,7 @@ const index = () => {
 
   function setData(NoteNumber, price, longitude, latitude, uid) {
     return set(ref(db, "CurrencyInfo/" + uid), {
-      NotNumber: NoteNumber,
+      NoteNumber: NoteNumber,
       Price: price,
       Longitude: longitude,
       Latitude: latitude,
