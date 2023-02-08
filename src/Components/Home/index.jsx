@@ -8,6 +8,7 @@ const index = () => {
   const [loading, setLoading] = useState(false);
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
+  const [UID, setUID] = useState("");
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((p) => {
@@ -15,22 +16,18 @@ const index = () => {
       console.log(p.coords.latitude);
       setLongitude(p.coords.longitude);
       setLatitude(p.coords.latitude);
+      setUID(localStorage.getItem("userUID"));
     });
   }, []);
 
-  function setData(NoteNumber, price,longitude,latitude) {
-    return set(ref(db, "CurrencyInfo/"), {
+  function setData(NoteNumber, price, longitude, latitude, uid) {
+    return set(ref(db, "CurrencyInfo/" + uid), {
       NotNumber: NoteNumber,
       Price: price,
       Longitude: longitude,
       Latitude: latitude,
     });
   }
-
-  // function googleSignIn() {
-  //   const googleAuthProvider = new GoogleAuthProvider();
-  //   return signInWithPopup(auth, googleAuthProvider);
-  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +38,7 @@ const index = () => {
     }
     try {
       setLoading(true);
-      await setData(NoteNumber, price,longitude,latitude);
+      await setData(NoteNumber, price, longitude, latitude, UID);
       setError("Your data is Submited Successfully");
       setNoteNumber("");
       setPrice("");
