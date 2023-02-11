@@ -33,21 +33,27 @@ const index = () => {
     });
   }
 
+  const priceList = ["10", "20", "50", "100", "200", "500", "2000"];
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError("");
     if (NoteNumber === "" && price === "") {
       setError("Enter the value");
       return;
     }
-    try {
-      setLoading(true);
-      await setData(NoteNumber, price, longitude, latitude, UID);
-      setError("Your data is Submited Successfully");
-      setNoteNumber("");
-      setPrice("");
-    } catch (err) {
-      setError(err.message);
+    if (priceList.includes(price)) {
+      try {
+        setLoading(true);
+        await setData(NoteNumber, price, longitude, latitude, UID);
+        setError("Your data is Submited Successfully");
+        setNoteNumber("");
+        setPrice("");
+      } catch (err) {
+        setError(err.message);
+      }
+    } else {
+      setError("Enter valid amount");
     }
     setLoading(false);
   };
